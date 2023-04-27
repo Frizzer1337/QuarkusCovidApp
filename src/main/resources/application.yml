@@ -1,0 +1,11 @@
+quarkus:
+  http:
+    port: 7000
+    cors:
+      ~: true
+      origins: http://localhost:4200
+      headers: accept, authorization, content-type, x-requested-with
+      methods: GET, OPTIONS
+  rest-client:
+    com.frizzer.graal.client.CountryClient:
+      url: https://api.covid19api.com
