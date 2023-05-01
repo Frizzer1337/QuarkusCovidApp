@@ -20,18 +20,20 @@ public class CovidService {
     return toCountryResponse(client.findCountry());
   }
 
-  public List<CountryDataResponse> findCountryData(String countryName,String start,String end) {
-    return toCountryDataResponse(client.findCountryData(countryName,start,end));
+  public List<CountryDataResponse> findCountryData(String countryName, String start, String end) {
+    return toCountryDataResponse(client.findCountryData(countryName, start, end));
   }
 
   private List<CountryDataResponse> toCountryDataResponse(List<CountryDataRequest> list) {
     List<CountryDataResponse> result = new ArrayList<>();
+    list = list.stream().filter(it -> it.province().isEmpty()).toList();
     for (int i = 0; i < list.size() - 1; i++) {
       CountryDataRequest current = list.get(i);
       CountryDataRequest next = list.get(i + 1);
       int todayInfected = next.confirmed() - current.confirmed();
       result.add(
-          new CountryDataResponse(current.id(), current.country(), current.confirmed(), todayInfected, current.date()));
+          new CountryDataResponse(current.id(), current.country(), current.confirmed(), todayInfected,
+              current.date()));
     }
     return result;
   }

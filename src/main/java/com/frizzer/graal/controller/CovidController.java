@@ -1,7 +1,5 @@
 package com.frizzer.graal.controller;
 
-import com.frizzer.graal.entity.CountryDataResponse;
-import com.frizzer.graal.entity.CountryResponse;
 import com.frizzer.graal.service.CovidService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -10,7 +8,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import java.util.List;
+import jakarta.ws.rs.core.Response;
 
 @Path("/api")
 public class CovidController {
@@ -21,16 +19,16 @@ public class CovidController {
   @GET
   @Path("/countries")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<CountryResponse> hello() {
-    return service.findCountry();
+  public Response hello() {
+    return Response.ok(service.findCountry()).build();
   }
 
   @GET
-  @Path("/by-country/{country}")
+  @Path("/countries/{country}")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<CountryDataResponse> findCountryData(@PathParam("country") String country,
+  public Response findCountryData(@PathParam("country") String country,
       @QueryParam("from") String start, @QueryParam("to") String end) {
-    return service.findCountryData(country, start, end);
+    return Response.ok(service.findCountryData(country, start, end)).build();
   }
 
 
